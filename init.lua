@@ -52,7 +52,7 @@ require('lazy').setup({
       "nvim-lua/plenary.nvim",
       "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
       "MunifTanjim/nui.nvim",
-      -- "3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
+      "3rd/image.nvim",              -- Optional image support in preview window: See `# Preview Mode` for more information
     }
   },
 
@@ -122,13 +122,16 @@ require('lazy').setup({
   },
 
   -- Useful plugin to show you pending keybinds.
-  { 'folke/which-key.nvim', opts = {} },
+  { 'folke/which-key.nvim',  opts = {} },
   -- get to things quickly
+  --{
+  --'ThePrimeagen/harpoon',
+  -- branch = "harpoon2",
+  -- dependencies = { "nvim-lua/plenary.nvim" },
+  --opts = {}
+  --},
   {
-    'ThePrimeagen/harpoon',
-    -- branch = "harpoon2",
-    -- dependencies = { "nvim-lua/plenary.nvim" },
-    opts = {}
+    dir = '~/projects/harpoon',
   },
   {
     -- Adds git related signs to the gutter, as well as utilities for managing changes
@@ -282,9 +285,9 @@ require('lazy').setup({
     config = function()
       require("neorg").setup {
         load = {
-          ["core.defaults"] = {}, -- Loads default behaviour
+          ["core.defaults"] = {},  -- Loads default behaviour
           ["core.concealer"] = {}, -- Adds pretty icons to your documents
-          ["core.dirman"] = { -- Manages Neorg workspaces
+          ["core.dirman"] = {      -- Manages Neorg workspaces
             config = {
               workspaces = {
                 notes = "~/notes",
@@ -294,7 +297,13 @@ require('lazy').setup({
         },
       }
     end,
-  }
+  },
+
+  -- setup quick runner plugin
+  {
+    dir = '~/projects/quickrunner',
+    --lazy = false,
+  },
 
 
   -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
@@ -302,6 +311,8 @@ require('lazy').setup({
   --       Uncomment any of the lines below to enable them.
   -- require 'kickstart.plugins.autoformat',
   -- require 'kickstart.plugins.debug',
+  --require 'crzytrane.plugins.QuickRunner.init',
+  --require 'crzytrane.plugins.test.init',
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    You can use this folder to prevent any conflicts with this init.lua if you're interested in keeping
@@ -382,8 +393,8 @@ vim.keymap.set('n', '<leader>fw', ':w <enter>', { desc = 'File save' })
 -- Harpoon
 vim.keymap.set('n', '<leader>ho', function() require('harpoon.ui').toggle_quick_menu() end, { desc = 'Open harpoon' })
 vim.keymap.set('n', '<leader>ha', function() require('harpoon.mark').add_file() end, { desc = 'Add file to Harpoon' })
-vim.keymap.set('n', '<leader>ht', function() require('telescope').load_extension('harpoon') end,
-  { desc = 'Open harpoon telescope' })
+vim.keymap.set('n', '<leader>ht', function() require('telescope').load_extension('harpoon') end, { desc = 'Open harpoon telescope' })
+vim.keymap.set('n', '<leader>hc', function() require('harpoon.cmd-ui').toggle_quick_menu() end, { desc = 'Open harpoon terminal' })
 vim.keymap.set('n', '<leader>hn', function() require('harpoon.ui').nav_next() end, { desc = 'Open next harpoon' })
 vim.keymap.set('n', '<leader>hp', function() require('harpoon.ui').nav_prev() end, { desc = 'Open previous harpoon' })
 
@@ -393,6 +404,9 @@ vim.keymap.set('n', '<leader>3', function() require('harpoon.ui').nav_file(3) en
 vim.keymap.set('n', '<leader>4', function() require('harpoon.ui').nav_file(4) end, { desc = 'Open harpoon 4' })
 vim.keymap.set('n', '<leader>5', function() require('harpoon.ui').nav_file(5) end, { desc = 'Open harpoon 5' })
 
+-- quickrunner
+vim.keymap.set('n', '<leader>he', function() require('quickrunner').toggle_menu() end, { desc = 'Open quickrunner' })
+
 vim.keymap.set('n', '<leader>n', '<CMD>Neotree toggle<CR>', { desc = 'Neotree open' })
 
 -- open up oil
@@ -400,6 +414,9 @@ vim.keymap.set('n', '-', '<CMD>Oil<CR>', { desc = 'Open directory in Oil' })
 
 -- open up the previous buffer
 vim.keymap.set('n', '<leader><Tab>', '<CMD>bp<CR>', { desc = 'Open directory in Oil' })
+
+-- make it easier to exit terminal mode
+vim.api.nvim_set_keymap('t', '<Leader><ESC>', '<C-\\><C-n>', {noremap = true})
 
 -- setup on hover
 -- vim.keymap.set('n', 'K', require('hover').hover, {desc = 'Hover'})
@@ -622,7 +639,7 @@ local on_attach = function(_, bufnr)
 
   -- See `:help K` for why this keymap
   nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
-  nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
+  nmap('<C-SPACE>', vim.lsp.buf.signature_help, 'Signature Documentation')
 
   -- Lesser used LSP functionality
   nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
@@ -658,7 +675,7 @@ require('which-key').register({
 
 -- local setup, copilot = pcall(require, "copilot")
 --if not setup then
-	--return
+--return
 --end
 
 --[[
