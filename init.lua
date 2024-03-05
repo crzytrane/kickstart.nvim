@@ -413,7 +413,7 @@ vim.keymap.set('n', '<leader>n', '<CMD>Neotree toggle<CR>', { desc = 'Neotree op
 vim.keymap.set('n', '-', '<CMD>Oil<CR>', { desc = 'Open directory in Oil' })
 
 -- open up the previous buffer
-vim.keymap.set('n', '<leader><Tab>', '<CMD>bp<CR>', { desc = 'Open directory in Oil' })
+vim.keymap.set('n', '<leader><Tab>', '<CMD>bp<CR>', { desc = 'Open previous buffer' })
 
 -- make it easier to exit terminal mode
 vim.api.nvim_set_keymap('t', '<Leader><ESC>', '<C-\\><C-n>', {noremap = true})
