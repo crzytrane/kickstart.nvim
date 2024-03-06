@@ -415,7 +415,7 @@ vim.keymap.set('n', '<leader>he', function() require('quickrunner').toggle_menu(
 vim.keymap.set('n', '<leader>n', '<CMD>Neotree toggle<CR>', { desc = 'Neotree open' })
 
 -- open up oil
-vim.keymap.set('n', '-', '<CMD>Oil<CR>', { desc = 'Open directory in Oil' })
+vim.keymap.set('n', '-', function() require("oil").open() end, { desc = 'Open directory in Oil' })
 
 -- open up the previous buffer
 vim.keymap.set('n', '<leader><Tab>', '<CMD>bp<CR>', { desc = 'Open previous buffer' })
