@@ -52,25 +52,11 @@ require('lazy').setup({
       "nvim-lua/plenary.nvim",
       "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
       "MunifTanjim/nui.nvim",
-      "3rd/image.nvim",              -- Optional image support in preview window: See `# Preview Mode` for more information
     }
   },
 
   -- copilot TODO get this working nicely with cmp
   --'github/copilot.vim',
-
-  -- on hover completion
-  --[[{
-    'lewis6991/hover.nvim',
-    opts = {
-      mouse_providers = {
-        'LSP',
-      },
-      mouse_delay = 1000,
-    },
-    lazy = false,
-  },
-  --]]
 
   -- NOTE: This is where your plugins related to LSP can be installed.
   --  The configuration is done below. Search for lspconfig to find it below.
@@ -124,15 +110,15 @@ require('lazy').setup({
   -- Useful plugin to show you pending keybinds.
   { 'folke/which-key.nvim',  opts = {} },
   -- get to things quickly
-  --{
-  --'ThePrimeagen/harpoon',
-  -- branch = "harpoon2",
-  -- dependencies = { "nvim-lua/plenary.nvim" },
-  --opts = {}
-  --},
   {
-    dir = '~/projects/harpoon',
+    'ThePrimeagen/harpoon',
+    branch = "harpoon2",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    opts = {}
   },
+  -- {
+  --   dir = '~/projects/harpoon',
+  -- },
   {
     -- Adds git related signs to the gutter, as well as utilities for managing changes
     'lewis6991/gitsigns.nvim',
@@ -276,34 +262,34 @@ require('lazy').setup({
     },
     build = ':TSUpdate',
   },
-  {
-    "nvim-neorg/neorg",
-    build = ":Neorg sync-parsers",
-    lazy = false, -- specify lazy = false because some lazy.nvim distributions set lazy = true by default
-    -- tag = "*",
-    dependencies = { "nvim-lua/plenary.nvim" },
-    config = function()
-      require("neorg").setup {
-        load = {
-          ["core.defaults"] = {},  -- Loads default behaviour
-          ["core.concealer"] = {}, -- Adds pretty icons to your documents
-          ["core.dirman"] = {      -- Manages Neorg workspaces
-            config = {
-              workspaces = {
-                notes = "~/notes",
-              },
-            },
-          },
-        },
-      }
-    end,
-  },
+  -- {
+  --   "nvim-neorg/neorg",
+  --   build = ":Neorg sync-parsers",
+  --   lazy = false, -- specify lazy = false because some lazy.nvim distributions set lazy = true by default
+  --   -- tag = "*",
+  --   dependencies = { "nvim-lua/plenary.nvim" },
+  --   config = function()
+  --     require("neorg").setup {
+  --       load = {
+  --         ["core.defaults"] = {},  -- Loads default behaviour
+  --         ["core.concealer"] = {}, -- Adds pretty icons to your documents
+  --         ["core.dirman"] = {      -- Manages Neorg workspaces
+  --           config = {
+  --             workspaces = {
+  --               notes = "~/notes",
+  --             },
+  --           },
+  --         },
+  --       },
+  --     }
+  --   end,
+  -- },
 
   -- setup quick runner plugin
-  {
-    dir = '~/projects/quickrunner',
-    --lazy = false,
-  },
+  -- {
+  --   dir = '~/projects/quickrunner',
+  --   --lazy = false,
+  -- },
 
 
   -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
@@ -661,7 +647,7 @@ local on_attach = function(_, bufnr)
 end
 
 -- document existing key chains
-require('which-key').register {
+require('which-key').add {
   ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
   ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
   ['<leader>g'] = { name = '[G]it', _ = 'which_key_ignore' },
@@ -673,7 +659,7 @@ require('which-key').register {
 }
 -- register which-key VISUAL mode
 -- required for visual <leader>hs (hunk stage) to work
-require('which-key').register({
+require('which-key').add({
   ['<leader>'] = { name = 'VISUAL <leader>' },
   ['<leader>gh'] = { 'Git [H]unk' },
 }, { mode = 'v' })
@@ -756,6 +742,7 @@ capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 local mason_lspconfig = require 'mason-lspconfig'
 
 mason_lspconfig.setup {
+  automatic_installation = true,
   ensure_installed = vim.tbl_keys(servers),
 }
 
